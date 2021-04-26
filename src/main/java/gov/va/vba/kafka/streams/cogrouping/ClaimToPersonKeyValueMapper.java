@@ -19,10 +19,7 @@ public class ClaimToPersonKeyValueMapper implements KeyValueMapper<String,String
             LinkedHashMap<String,Object> latest = mapper.readValue(s2, new TypeReference<LinkedHashMap<String,Object>>() {});
             LinkedHashMap<String,Object> claim = (LinkedHashMap<String, Object>) latest.get("claim");
             if(claim.get("veteranPersonId") == null) {
-                if(claim.get("claimantPersonId") == null) {
-                    System.out.println("why");
-                }
-                else key = String.valueOf(claim.get("claimantPersonId"));
+                key = String.valueOf(claim.get("claimantPersonId"));
             }
             else key = String.valueOf(claim.get("veteranPersonId"));
 
