@@ -1,60 +1,59 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Model for list of military services returned from BGS
+ * Model for list of persons returned from BGS
  */
-@ApiModel(description = "Model for list of military services returned from BGS")
+@ApiModel(description = "Model for list of persons returned from BGS")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-16T11:26:38.173-04:00[America/New_York]")
 
-public class MilitaryServicesOAPI  implements Serializable {
+public class PersonsOAPI  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("militaryServicesList")
+  @JsonProperty("personList")
   
-  private List<MilitaryServiceOAPI> militaryServicesList = null;
+  private List<PersonOAPI> personList = null;
 
   @JsonProperty("operationStatus")
   private OperationStatusOAPI operationStatus = null;
 
-  public MilitaryServicesOAPI militaryServicesList(List<MilitaryServiceOAPI> militaryServicesList) {
-    this.militaryServicesList = militaryServicesList;
+  public PersonsOAPI personList(List<PersonOAPI> personList) {
+    this.personList = personList;
     return this;
   }
 
-  public MilitaryServicesOAPI addMilitaryServicesListItem(MilitaryServiceOAPI militaryServicesListItem) {
-    if (this.militaryServicesList == null) {
-      this.militaryServicesList = new ArrayList<>();
+  public PersonsOAPI addPersonListItem(PersonOAPI personListItem) {
+    if (this.personList == null) {
+      this.personList = new ArrayList<>();
     }
-    this.militaryServicesList.add(militaryServicesListItem);
+    this.personList.add(personListItem);
     return this;
   }
 
   /**
-   * Get militaryServicesList
-   * @return militaryServicesList
+   * Get personList
+   * @return personList
   */
   @ApiModelProperty(value = "")
 
   
 
-  public List<MilitaryServiceOAPI> getMilitaryServicesList() {
-    return militaryServicesList;
+  public List<PersonOAPI> getPersonList() {
+    return personList;
   }
 
-  public void setMilitaryServicesList(List<MilitaryServiceOAPI> militaryServicesList) {
-    this.militaryServicesList = militaryServicesList;
+  public void setPersonList(List<PersonOAPI> personList) {
+    this.personList = personList;
   }
 
-  public MilitaryServicesOAPI operationStatus(OperationStatusOAPI operationStatus) {
+  public PersonsOAPI operationStatus(OperationStatusOAPI operationStatus) {
     this.operationStatus = operationStatus;
     return this;
   }
@@ -84,22 +83,22 @@ public class MilitaryServicesOAPI  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MilitaryServicesOAPI militaryServicesOAPI = (MilitaryServicesOAPI) o;
-    return Objects.equals(this.militaryServicesList, militaryServicesOAPI.militaryServicesList) &&
-        Objects.equals(this.operationStatus, militaryServicesOAPI.operationStatus);
+    PersonsOAPI personsOAPI = (PersonsOAPI) o;
+    return Objects.equals(this.personList, personsOAPI.personList) &&
+        Objects.equals(this.operationStatus, personsOAPI.operationStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(militaryServicesList, operationStatus);
+    return Objects.hash(personList, operationStatus);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MilitaryServicesOAPI {\n");
+    sb.append("class PersonsOAPI {\n");
 
-    sb.append("    militaryServicesList: ").append(toIndentedString(militaryServicesList)).append("\n");
+    sb.append("    personList: ").append(toIndentedString(personList)).append("\n");
     sb.append("    operationStatus: ").append(toIndentedString(operationStatus)).append("\n");
     sb.append("}");
     return sb.toString();

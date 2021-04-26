@@ -1,4 +1,4 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import java.io.Serializable;
 import java.util.Objects;

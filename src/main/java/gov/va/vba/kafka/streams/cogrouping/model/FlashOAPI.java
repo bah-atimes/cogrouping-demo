@@ -1,4 +1,4 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,40 +7,40 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * ForbiddenSojOAPI
+ * FlashOAPI
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-16T11:26:38.173-04:00[America/New_York]")
 
-public class ForbiddenSojOAPI  implements Serializable {
+public class FlashOAPI  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("forbiddenSoj")
-  private String forbiddenSoj;
+  @JsonProperty("flashName")
+  private String flashName;
 
   @JsonProperty("personId")
   private Long personId;
 
-  public ForbiddenSojOAPI forbiddenSoj(String forbiddenSoj) {
-    this.forbiddenSoj = forbiddenSoj;
+  public FlashOAPI flashName(String flashName) {
+    this.flashName = flashName;
     return this;
   }
 
   /**
-   * Get forbiddenSoj
-   * @return forbiddenSoj
+   * Get flashName
+   * @return flashName
   */
   @ApiModelProperty(value = "")
 
 
-  public String getForbiddenSoj() {
-    return forbiddenSoj;
+  public String getFlashName() {
+    return flashName;
   }
 
-  public void setForbiddenSoj(String forbiddenSoj) {
-    this.forbiddenSoj = forbiddenSoj;
+  public void setFlashName(String flashName) {
+    this.flashName = flashName;
   }
 
-  public ForbiddenSojOAPI personId(Long personId) {
+  public FlashOAPI personId(Long personId) {
     this.personId = personId;
     return this;
   }
@@ -69,22 +69,22 @@ public class ForbiddenSojOAPI  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ForbiddenSojOAPI forbiddenSojOAPI = (ForbiddenSojOAPI) o;
-    return Objects.equals(this.forbiddenSoj, forbiddenSojOAPI.forbiddenSoj) &&
-        Objects.equals(this.personId, forbiddenSojOAPI.personId);
+    FlashOAPI flashOAPI = (FlashOAPI) o;
+    return Objects.equals(this.flashName, flashOAPI.flashName) &&
+        Objects.equals(this.personId, flashOAPI.personId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(forbiddenSoj, personId);
+    return Objects.hash(flashName, personId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ForbiddenSojOAPI {\n");
+    sb.append("class FlashOAPI {\n");
 
-    sb.append("    forbiddenSoj: ").append(toIndentedString(forbiddenSoj)).append("\n");
+    sb.append("    flashName: ").append(toIndentedString(flashName)).append("\n");
     sb.append("    personId: ").append(toIndentedString(personId)).append("\n");
     sb.append("}");
     return sb.toString();

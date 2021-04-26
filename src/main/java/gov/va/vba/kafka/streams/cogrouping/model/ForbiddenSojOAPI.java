@@ -1,4 +1,4 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,40 +7,40 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * DiagnosticRatingOAPI
+ * ForbiddenSojOAPI
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-16T11:26:38.173-04:00[America/New_York]")
 
-public class DiagnosticRatingOAPI  implements Serializable {
+public class ForbiddenSojOAPI  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("diagnosticTypeCode")
-  private String diagnosticTypeCode;
+  @JsonProperty("forbiddenSoj")
+  private String forbiddenSoj;
 
   @JsonProperty("personId")
   private Long personId;
 
-  public DiagnosticRatingOAPI diagnosticTypeCode(String diagnosticTypeCode) {
-    this.diagnosticTypeCode = diagnosticTypeCode;
+  public ForbiddenSojOAPI forbiddenSoj(String forbiddenSoj) {
+    this.forbiddenSoj = forbiddenSoj;
     return this;
   }
 
   /**
-   * Get diagnosticTypeCode
-   * @return diagnosticTypeCode
+   * Get forbiddenSoj
+   * @return forbiddenSoj
   */
   @ApiModelProperty(value = "")
 
 
-  public String getDiagnosticTypeCode() {
-    return diagnosticTypeCode;
+  public String getForbiddenSoj() {
+    return forbiddenSoj;
   }
 
-  public void setDiagnosticTypeCode(String diagnosticTypeCode) {
-    this.diagnosticTypeCode = diagnosticTypeCode;
+  public void setForbiddenSoj(String forbiddenSoj) {
+    this.forbiddenSoj = forbiddenSoj;
   }
 
-  public DiagnosticRatingOAPI personId(Long personId) {
+  public ForbiddenSojOAPI personId(Long personId) {
     this.personId = personId;
     return this;
   }
@@ -69,22 +69,22 @@ public class DiagnosticRatingOAPI  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DiagnosticRatingOAPI diagnosticRatingOAPI = (DiagnosticRatingOAPI) o;
-    return Objects.equals(this.diagnosticTypeCode, diagnosticRatingOAPI.diagnosticTypeCode) &&
-        Objects.equals(this.personId, diagnosticRatingOAPI.personId);
+    ForbiddenSojOAPI forbiddenSojOAPI = (ForbiddenSojOAPI) o;
+    return Objects.equals(this.forbiddenSoj, forbiddenSojOAPI.forbiddenSoj) &&
+        Objects.equals(this.personId, forbiddenSojOAPI.personId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(diagnosticTypeCode, personId);
+    return Objects.hash(forbiddenSoj, personId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DiagnosticRatingOAPI {\n");
+    sb.append("class ForbiddenSojOAPI {\n");
 
-    sb.append("    diagnosticTypeCode: ").append(toIndentedString(diagnosticTypeCode)).append("\n");
+    sb.append("    forbiddenSoj: ").append(toIndentedString(forbiddenSoj)).append("\n");
     sb.append("    personId: ").append(toIndentedString(personId)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -1,4 +1,4 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,40 +7,40 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * FlashOAPI
+ * DiagnosticRatingOAPI
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-16T11:26:38.173-04:00[America/New_York]")
 
-public class FlashOAPI  implements Serializable {
+public class DiagnosticRatingOAPI  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("flashName")
-  private String flashName;
+  @JsonProperty("diagnosticTypeCode")
+  private String diagnosticTypeCode;
 
   @JsonProperty("personId")
   private Long personId;
 
-  public FlashOAPI flashName(String flashName) {
-    this.flashName = flashName;
+  public DiagnosticRatingOAPI diagnosticTypeCode(String diagnosticTypeCode) {
+    this.diagnosticTypeCode = diagnosticTypeCode;
     return this;
   }
 
   /**
-   * Get flashName
-   * @return flashName
+   * Get diagnosticTypeCode
+   * @return diagnosticTypeCode
   */
   @ApiModelProperty(value = "")
 
 
-  public String getFlashName() {
-    return flashName;
+  public String getDiagnosticTypeCode() {
+    return diagnosticTypeCode;
   }
 
-  public void setFlashName(String flashName) {
-    this.flashName = flashName;
+  public void setDiagnosticTypeCode(String diagnosticTypeCode) {
+    this.diagnosticTypeCode = diagnosticTypeCode;
   }
 
-  public FlashOAPI personId(Long personId) {
+  public DiagnosticRatingOAPI personId(Long personId) {
     this.personId = personId;
     return this;
   }
@@ -69,22 +69,22 @@ public class FlashOAPI  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    FlashOAPI flashOAPI = (FlashOAPI) o;
-    return Objects.equals(this.flashName, flashOAPI.flashName) &&
-        Objects.equals(this.personId, flashOAPI.personId);
+    DiagnosticRatingOAPI diagnosticRatingOAPI = (DiagnosticRatingOAPI) o;
+    return Objects.equals(this.diagnosticTypeCode, diagnosticRatingOAPI.diagnosticTypeCode) &&
+        Objects.equals(this.personId, diagnosticRatingOAPI.personId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(flashName, personId);
+    return Objects.hash(diagnosticTypeCode, personId);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FlashOAPI {\n");
+    sb.append("class DiagnosticRatingOAPI {\n");
 
-    sb.append("    flashName: ").append(toIndentedString(flashName)).append("\n");
+    sb.append("    diagnosticTypeCode: ").append(toIndentedString(diagnosticTypeCode)).append("\n");
     sb.append("    personId: ").append(toIndentedString(personId)).append("\n");
     sb.append("}");
     return sb.toString();

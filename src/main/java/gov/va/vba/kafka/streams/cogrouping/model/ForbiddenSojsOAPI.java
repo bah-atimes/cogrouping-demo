@@ -1,4 +1,4 @@
-package gov.va.vba.kafka.streams.cogrouping.aggregated;
+package gov.va.vba.kafka.streams.cogrouping.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -10,48 +10,51 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Model for list of c returned from BGS
+ * Model for list of forbidden sojs returned from BGS
  */
-@ApiModel(description = "Model for list of c returned from BGS")
+@ApiModel(description = "Model for list of forbidden sojs returned from BGS")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-04-16T11:26:38.173-04:00[America/New_York]")
 
-public class DiagnosticRatingsOAPI  implements Serializable {
+public class ForbiddenSojsOAPI  implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  @JsonProperty("diagnosticRatingsList")
-  private List<DiagnosticRatingOAPI> diagnosticRatingsList = null;
+  @JsonProperty("forbiddenSojsList")
+  
+  private List<ForbiddenSojOAPI> forbiddenSojsList = null;
 
   @JsonProperty("operationStatus")
   private OperationStatusOAPI operationStatus = null;
 
-  public DiagnosticRatingsOAPI diagnosticRatingsList(List<DiagnosticRatingOAPI> diagnosticRatingsList) {
-    this.diagnosticRatingsList = diagnosticRatingsList;
+  public ForbiddenSojsOAPI forbiddenSojsList(List<ForbiddenSojOAPI> forbiddenSojsList) {
+    this.forbiddenSojsList = forbiddenSojsList;
     return this;
   }
 
-  public DiagnosticRatingsOAPI addDiagnosticRatingsListItem(DiagnosticRatingOAPI diagnosticRatingsListItem) {
-    if (this.diagnosticRatingsList == null) {
-      this.diagnosticRatingsList = new ArrayList<>();
+  public ForbiddenSojsOAPI addForbiddenSojsListItem(ForbiddenSojOAPI forbiddenSojsListItem) {
+    if (this.forbiddenSojsList == null) {
+      this.forbiddenSojsList = new ArrayList<>();
     }
-    this.diagnosticRatingsList.add(diagnosticRatingsListItem);
+    this.forbiddenSojsList.add(forbiddenSojsListItem);
     return this;
   }
 
   /**
-   * Get diagnosticRatingsList
-   * @return diagnosticRatingsList
+   * Get forbiddenSojsList
+   * @return forbiddenSojsList
   */
   @ApiModelProperty(value = "")
 
-  public List<DiagnosticRatingOAPI> getDiagnosticRatingsList() {
-    return diagnosticRatingsList;
+  
+
+  public List<ForbiddenSojOAPI> getForbiddenSojsList() {
+    return forbiddenSojsList;
   }
 
-  public void setDiagnosticRatingsList(List<DiagnosticRatingOAPI> diagnosticRatingsList) {
-    this.diagnosticRatingsList = diagnosticRatingsList;
+  public void setForbiddenSojsList(List<ForbiddenSojOAPI> forbiddenSojsList) {
+    this.forbiddenSojsList = forbiddenSojsList;
   }
 
-  public DiagnosticRatingsOAPI operationStatus(OperationStatusOAPI operationStatus) {
+  public ForbiddenSojsOAPI operationStatus(OperationStatusOAPI operationStatus) {
     this.operationStatus = operationStatus;
     return this;
   }
@@ -61,6 +64,8 @@ public class DiagnosticRatingsOAPI  implements Serializable {
    * @return operationStatus
   */
   @ApiModelProperty(value = "")
+
+  
 
   public OperationStatusOAPI getOperationStatus() {
     return operationStatus;
@@ -79,22 +84,22 @@ public class DiagnosticRatingsOAPI  implements Serializable {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DiagnosticRatingsOAPI diagnosticRatingsOAPI = (DiagnosticRatingsOAPI) o;
-    return Objects.equals(this.diagnosticRatingsList, diagnosticRatingsOAPI.diagnosticRatingsList) &&
-        Objects.equals(this.operationStatus, diagnosticRatingsOAPI.operationStatus);
+    ForbiddenSojsOAPI forbiddenSojsOAPI = (ForbiddenSojsOAPI) o;
+    return Objects.equals(this.forbiddenSojsList, forbiddenSojsOAPI.forbiddenSojsList) &&
+        Objects.equals(this.operationStatus, forbiddenSojsOAPI.operationStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(diagnosticRatingsList, operationStatus);
+    return Objects.hash(forbiddenSojsList, operationStatus);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DiagnosticRatingsOAPI {\n");
+    sb.append("class ForbiddenSojsOAPI {\n");
 
-    sb.append("    diagnosticRatingsList: ").append(toIndentedString(diagnosticRatingsList)).append("\n");
+    sb.append("    forbiddenSojsList: ").append(toIndentedString(forbiddenSojsList)).append("\n");
     sb.append("    operationStatus: ").append(toIndentedString(operationStatus)).append("\n");
     sb.append("}");
     return sb.toString();

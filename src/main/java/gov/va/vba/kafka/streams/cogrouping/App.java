@@ -8,8 +8,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Aggregator;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
-import org.apache.kafka.streams.state.Stores;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -19,6 +17,7 @@ public class App {
 
     private final static String PERSON_TOPIC = "person-topic";
     private final static String CLAIM_TOPIC = "claim-topic";
+    private final static String PERSON_CHANGES_TOPIC = "person-changes-topic";
 
     public static void main(String []args) {
         new App();
@@ -38,40 +37,33 @@ public class App {
         streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass().getName());
 
-        final Aggregator<String, String, String> loginAggregator = new DemoAggregator();
+        final Aggregator<String, String, String> personAggregator = new PersonAggregator();
 
         StreamsBuilder builder = new StreamsBuilder();
-        builder.addStateStore(
-                Stores.keyValueStoreBuilder(
-                        Stores.inMemoryKeyValueStore("store"),
-                        Serdes.String(),
-                        Serdes.String()));
+//        builder.addStateStore(
+//                Stores.keyValueStoreBuilder(
+//                        Stores.inMemoryKeyValueStore("store"),
+//                        Serdes.String(),
+//                        Serdes.String()));
 
 
         final KStream<String,String> personStream = builder.stream(Collections.singletonList(PERSON_TOPIC));
         final KStream<String,String> claimStream = builder.stream(Collections.singletonList(CLAIM_TOPIC));
+        final KStream<String,String> personChangesStream = builder.stream(Collections.singletonList(PERSON_CHANGES_TOPIC));
 
         final KGroupedStream<String,String> personGrouped = personStream.groupByKey();
+        final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new ClaimToPersonKeyValueMapper());
+        final KGroupedStream<String,String> personChangesGrouped = personChangesStream.groupByKey();
 
-        final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new KeyValueMapper<String, String, String>() {
-            @Override
-            public String apply(String s, String s2) {
-                return "32435876";
-            }
-        });
-
-        personGrouped.cogroup(loginAggregator)
-                .cogroup(claimGroupedByPerson, loginAggregator)
-                .aggregate(() -> String.valueOf("thing"))
+        personGrouped.cogroup(personAggregator)
+                .cogroup(claimGroupedByPerson, personAggregator)
+                .cogroup(personChangesGrouped, personAggregator)
+                .aggregate(String::new)
                 .toStream().to("output-topic");
 
         KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration);
         streams.start();
         System.out.println("Started");
         Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
-    }
-
-    private String aggregateClaims(String key, String newValue, String aggValue) {
-        return null;
     }
 }
