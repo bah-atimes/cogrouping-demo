@@ -10,29 +10,29 @@ import java.util.LinkedHashMap;
 public class PersonAggregator implements Aggregator<String, String, String> {
 
     @Override
-    public String apply(String key, String value, String aggregation) {
+    public String apply(String key, String newData, String aggregation) {
 
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             PersonCombined person = (aggregation.length() > 0) ? mapper.readValue(aggregation, new TypeReference<PersonCombined>() {}) : new PersonCombined();
-            LinkedHashMap<String, Object> latest = mapper.readValue(value, new TypeReference<LinkedHashMap<String, Object>>() {});
+            LinkedHashMap<String, Object> latest = mapper.readValue(newData, new TypeReference<LinkedHashMap<String, Object>>() {});
 
             person.id = key;
             if (latest.get("claim") != null) {
-                if(!person.claims.contains(value)) {
-                    person.claims.add(value);
+                if(!person.claims.contains(newData)) {
+                    person.claims.add(newData);
                 }
             }
 
             if(latest.get("personChanges") != null) {
-                if(!person.changes.contains(value)) {
-                    person.changes.add(value);
+                if(!person.changes.contains(newData)) {
+                    person.changes.add(newData);
                 }
             }
 
             else {
-                person.personJson = value;
+                person.personJson = newData;
             }
             System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
             aggregation = mapper.writeValueAsString(person);
