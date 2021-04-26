@@ -8,6 +8,7 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Aggregator;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.state.Stores;
 
 import java.util.Collections;
 import java.util.Properties;
@@ -40,11 +41,11 @@ public class App {
         final Aggregator<String, String, String> personAggregator = new PersonAggregator();
 
         StreamsBuilder builder = new StreamsBuilder();
-//        builder.addStateStore(
-//                Stores.keyValueStoreBuilder(
-//                        Stores.inMemoryKeyValueStore("store"),
-//                        Serdes.String(),
-//                        Serdes.String()));
+        builder.addStateStore(
+                Stores.keyValueStoreBuilder(
+                        Stores.inMemoryKeyValueStore("store"),
+                        Serdes.String(),
+                        Serdes.String()));
 
 
         final KStream<String,String> personStream = builder.stream(Collections.singletonList(PERSON_TOPIC));
