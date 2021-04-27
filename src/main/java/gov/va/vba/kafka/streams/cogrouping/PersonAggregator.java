@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 public class PersonAggregator implements Aggregator<String, String, String> {
 
@@ -25,7 +24,7 @@ public class PersonAggregator implements Aggregator<String, String, String> {
             person.id = key;
             if (latest.get("claim") != null) {
                 ClaimCombined claim = mapper.readValue(newData, new TypeReference<ClaimCombined>() {});
-                person.claims.put(claim.id, claim);
+                person.claims.put(Long.valueOf(claim.id), claim);
             }
 
             else if(latest.get("personChanges") != null) {
@@ -37,14 +36,16 @@ public class PersonAggregator implements Aggregator<String, String, String> {
             else {
                 person.personJson = newData;
             }
-            System.out.println("Person id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
-            List<String> keys = new ArrayList<>(person.claims.keySet());
-            Collections.sort(keys);
-            for(String k : keys) {
-                ClaimCombined c = person.claims.get(k);
-                System.out.println("    Claim id:" + c.id + " changes:" + c.changes.size());
-            }
             aggregation = mapper.writeValueAsString(person);
+            if(person.claims.size() > 100) {
+                System.out.println("Person id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+                List<Long> keys = new ArrayList<>(person.claims.keySet());
+                Collections.sort(keys);
+                for (Long k : keys) {
+                    ClaimCombined c = person.claims.get(k);
+                    System.out.println("    Claim id:" + c.id + " changes:" + c.changes.size());
+                }
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

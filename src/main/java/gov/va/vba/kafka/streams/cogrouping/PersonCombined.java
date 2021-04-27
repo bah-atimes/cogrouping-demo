@@ -9,6 +9,6 @@ public class PersonCombined {
 
     public String id;
     public String personJson;
-    public Map<String, ClaimCombined> claims = new HashMap<>();
+    public Map<Long, ClaimCombined> claims = new HashMap<>();
     public List<String> changes = new ArrayList<>();
 }
