@@ -19,6 +19,7 @@ public class App {
     private final static String PERSON_TOPIC = "person-topic";
     private final static String CLAIM_TOPIC = "claim-topic";
     private final static String PERSON_CHANGES_TOPIC = "person-changes-topic";
+    private final static String CLAIM_CHANGES_TOPIC = "claim-changes-topic";
 
     public static void main(String []args) {
         new App();
@@ -49,10 +50,16 @@ public class App {
 
 
 //        final KStream<String,String> personStream = builder.stream(Arrays.asList(PERSON_TOPIC, PERSON_CHANGES_TOPIC));
+//        final KStream<String,String> claimStream = builder.stream(Arrays.asList(CLAIM_TOPIC, CLAIM_CHANGES_TOPIC));
 
         final KStream<String,String> personStream = builder.stream(Collections.singletonList(PERSON_TOPIC));
         final KStream<String,String> personChangesStream = builder.stream(Collections.singletonList(PERSON_CHANGES_TOPIC));
+
         final KStream<String,String> claimStream = builder.stream(Collections.singletonList(CLAIM_TOPIC));
+        final KStream<String,String> claimChangesStream = builder.stream(Collections.singletonList(CLAIM_CHANGES_TOPIC));
+
+        final KGroupedStream<String,String> claimGrouped = claimStream.groupByKey();
+        final KGroupedStream<String,String> claimChangesGrouped = claimChangesStream.groupByKey();
 
         final KGroupedStream<String,String> personGrouped = personStream.groupByKey();
         final KGroupedStream<String,String> personChangesGrouped = personChangesStream.groupByKey();
