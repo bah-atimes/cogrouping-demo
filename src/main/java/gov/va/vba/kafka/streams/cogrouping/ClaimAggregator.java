@@ -25,7 +25,6 @@ public class ClaimAggregator implements Aggregator<String, String, String> {
             else {
                 claim.claim = newData;
             }
-//            System.out.println("Id:" + claim.id + " changes:" + claim.changes.size());
             aggregation = mapper.writeValueAsString(claim);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

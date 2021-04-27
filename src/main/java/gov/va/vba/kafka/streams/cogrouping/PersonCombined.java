@@ -7,6 +7,6 @@ public class PersonCombined {
 
     public String id;
     public String personJson;
-    public List<ClaimCombined> claims = new ArrayList<>();
+    public List<String> claims = new ArrayList<>();
     public List<String> changes = new ArrayList<>();
 }
