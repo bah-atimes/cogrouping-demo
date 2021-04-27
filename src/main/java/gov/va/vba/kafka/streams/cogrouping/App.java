@@ -40,6 +40,7 @@ public class App {
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass().getName());
 
         final Aggregator<String, String, String> personAggregator = new PersonAggregator();
+        final Aggregator<String,String,String> claimAggregator = new ClaimAggregator();
 
         StreamsBuilder builder = new StreamsBuilder();
         builder.addStateStore(
@@ -63,10 +64,18 @@ public class App {
 
         final KGroupedStream<String,String> personGrouped = personStream.groupByKey();
         final KGroupedStream<String,String> personChangesGrouped = personChangesStream.groupByKey();
-        final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new ClaimToPersonKeyValueMapper());
+        //final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new ClaimToPersonKeyValueMapper());
+
+
+        final KStream<String,String> aggClaimStream = claimGrouped.cogroup(claimAggregator)
+                .cogroup(claimChangesGrouped, claimAggregator)
+                .aggregate(String::new)
+                .toStream();
+
+        final KGroupedStream<String,String> aggClaimChangesGrouped = aggClaimStream.groupBy(new ClaimToPersonKeyValueMapper());
 
         personGrouped.cogroup(personAggregator)
-                .cogroup(claimGroupedByPerson, personAggregator)
+                .cogroup(aggClaimChangesGrouped, personAggregator)
                 .cogroup(personChangesGrouped, personAggregator)
                 .aggregate(String::new)
                 .toStream().to("output-topic");

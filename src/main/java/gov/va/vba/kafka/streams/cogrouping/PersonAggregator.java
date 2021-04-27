@@ -3,6 +3,7 @@ package gov.va.vba.kafka.streams.cogrouping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.kafka.streams.kstream.Aggregator;
 
 import java.util.LinkedHashMap;
@@ -20,12 +21,13 @@ public class PersonAggregator implements Aggregator<String, String, String> {
 
             person.id = key;
             if (latest.get("claim") != null) {
-                if(!person.claims.contains(newData)) {
-                    person.claims.add(newData);
+                ClaimCombined claim = mapper.readValue(newData, new TypeReference<ClaimCombined>() {});
+                if(!person.claims.contains(claim)) {
+                    person.claims.add(claim);
                 }
             }
 
-            if(latest.get("personChanges") != null) {
+            else if(latest.get("personChanges") != null) {
                 if(!person.changes.contains(newData)) {
                     person.changes.add(newData);
                 }
@@ -34,7 +36,7 @@ public class PersonAggregator implements Aggregator<String, String, String> {
             else {
                 person.personJson = newData;
             }
-            System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+//            System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
             aggregation = mapper.writeValueAsString(person);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

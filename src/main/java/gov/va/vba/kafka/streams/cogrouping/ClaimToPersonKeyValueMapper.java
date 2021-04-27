@@ -17,7 +17,8 @@ public class ClaimToPersonKeyValueMapper implements KeyValueMapper<String,String
 
         try {
             LinkedHashMap<String,Object> latest = mapper.readValue(s2, new TypeReference<LinkedHashMap<String,Object>>() {});
-            LinkedHashMap<String,Object> claim = (LinkedHashMap<String, Object>) latest.get("claim");
+            LinkedHashMap<String,Object> claimMap = mapper.readValue(latest.get("claim").toString(), new TypeReference<LinkedHashMap<String,Object>>() {});
+            LinkedHashMap<String,Object> claim = (LinkedHashMap<String, Object>) claimMap.get("claim");
             if(claim.get("veteranPersonId") == null) {
                 key = String.valueOf(claim.get("claimantPersonId"));
             }
