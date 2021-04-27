@@ -5,7 +5,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.streams.kstream.Aggregator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
 public class PersonAggregator implements Aggregator<String, String, String> {
 
@@ -20,10 +24,8 @@ public class PersonAggregator implements Aggregator<String, String, String> {
 
             person.id = key;
             if (latest.get("claim") != null) {
-//                ClaimCombined claim = mapper.readValue(newData, new TypeReference<ClaimCombined>() {});
-                if(!person.claims.contains(newData)) {
-                    person.claims.add(newData);
-                }
+                ClaimCombined claim = mapper.readValue(newData, new TypeReference<ClaimCombined>() {});
+                person.claims.put(claim.id, claim);
             }
 
             else if(latest.get("personChanges") != null) {
@@ -35,8 +37,12 @@ public class PersonAggregator implements Aggregator<String, String, String> {
             else {
                 person.personJson = newData;
             }
-            if(person.claims.size() > 250) {
-                System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+            System.out.println("Person id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+            List<String> keys = new ArrayList<>(person.claims.keySet());
+            Collections.sort(keys);
+            for(String k : keys) {
+                ClaimCombined c = person.claims.get(k);
+                System.out.println("    Claim id:" + c.id + " changes:" + c.changes.size());
             }
             aggregation = mapper.writeValueAsString(person);
         } catch (JsonProcessingException e) {

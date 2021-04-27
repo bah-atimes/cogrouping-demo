@@ -26,6 +26,7 @@ public class ClaimAggregator implements Aggregator<String, String, String> {
                 claim.claim = newData;
             }
             aggregation = mapper.writeValueAsString(claim);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
