@@ -8,9 +8,8 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Aggregator;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.state.Stores;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -40,43 +39,18 @@ public class App {
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,Serdes.String().getClass().getName());
 
         final Aggregator<String, String, String> personAggregator = new PersonAggregator();
-        final Aggregator<String,String,String> claimAggregator = new ClaimAggregator();
+        final StreamsBuilder builder = new StreamsBuilder();
 
-        StreamsBuilder builder = new StreamsBuilder();
-        builder.addStateStore(
-                Stores.keyValueStoreBuilder(
-                        Stores.inMemoryKeyValueStore("store"),
-                        Serdes.String(),
-                        Serdes.String()));
+        final KStream<String,String> claimStream = builder.stream(Arrays.asList(CLAIM_TOPIC, CLAIM_CHANGES_TOPIC));
+        final KGroupedStream<String,String> aggClaimChangesGroupedByPerson = claimStream.groupByKey()
+                .aggregate(String::new, new ClaimAggregator())
+                .toStream()
+                .groupBy(new ClaimToPersonKeyValueMapper());
 
-
-//        final KStream<String,String> personStream = builder.stream(Arrays.asList(PERSON_TOPIC, PERSON_CHANGES_TOPIC));
-//        final KStream<String,String> claimStream = builder.stream(Arrays.asList(CLAIM_TOPIC, CLAIM_CHANGES_TOPIC));
-
-        final KStream<String,String> personStream = builder.stream(Collections.singletonList(PERSON_TOPIC));
-        final KStream<String,String> personChangesStream = builder.stream(Collections.singletonList(PERSON_CHANGES_TOPIC));
-
-        final KStream<String,String> claimStream = builder.stream(Collections.singletonList(CLAIM_TOPIC));
-        final KStream<String,String> claimChangesStream = builder.stream(Collections.singletonList(CLAIM_CHANGES_TOPIC));
-
-        final KGroupedStream<String,String> claimGrouped = claimStream.groupByKey();
-        final KGroupedStream<String,String> claimChangesGrouped = claimChangesStream.groupByKey();
-
-        final KGroupedStream<String,String> personGrouped = personStream.groupByKey();
-        final KGroupedStream<String,String> personChangesGrouped = personChangesStream.groupByKey();
-        //final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new ClaimToPersonKeyValueMapper());
-
-
-        final KStream<String,String> aggClaimStream = claimGrouped.cogroup(claimAggregator)
-                .cogroup(claimChangesGrouped, claimAggregator)
-                .aggregate(String::new)
-                .toStream();
-
-        final KGroupedStream<String,String> aggClaimChangesGrouped = aggClaimStream.groupBy(new ClaimToPersonKeyValueMapper());
-
-        personGrouped.cogroup(personAggregator)
-                .cogroup(aggClaimChangesGrouped, personAggregator)
-                .cogroup(personChangesGrouped, personAggregator)
+        final KStream<String,String> personStream = builder.stream(Arrays.asList(PERSON_TOPIC, PERSON_CHANGES_TOPIC));
+        personStream.groupByKey()
+                .cogroup(personAggregator)
+                .cogroup(aggClaimChangesGroupedByPerson, personAggregator)
                 .aggregate(String::new)
                 .toStream().to("output-topic");
 
