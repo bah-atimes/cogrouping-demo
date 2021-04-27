@@ -34,7 +34,9 @@ public class PersonAggregator implements Aggregator<String, String, String> {
             else {
                 person.personJson = newData;
             }
-            System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+            if(person.claims.size() > 200) {
+                System.out.println("Id:" + person.id + " claims:" + person.claims.size() + " changes:" + person.changes.size());
+            }
             aggregation = mapper.writeValueAsString(person);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
