@@ -10,6 +10,7 @@ import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.state.Stores;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
@@ -48,19 +49,14 @@ public class App {
                         Serdes.String()));
 
 
-//        final KStream<String,String> personStream = builder.stream(Arrays.asList(PERSON_TOPIC, PERSON_CHANGES_TOPIC));
-
-        final KStream<String,String> personStream = builder.stream(Collections.singletonList(PERSON_TOPIC));
-        final KStream<String,String> personChangesStream = builder.stream(Collections.singletonList(PERSON_CHANGES_TOPIC));
+        final KStream<String,String> personStream = builder.stream(Arrays.asList(PERSON_TOPIC, PERSON_CHANGES_TOPIC));
         final KStream<String,String> claimStream = builder.stream(Collections.singletonList(CLAIM_TOPIC));
 
         final KGroupedStream<String,String> personGrouped = personStream.groupByKey();
-        final KGroupedStream<String,String> personChangesGrouped = personChangesStream.groupByKey();
         final KGroupedStream<String,String> claimGroupedByPerson = claimStream.groupBy(new ClaimToPersonKeyValueMapper());
 
         personGrouped.cogroup(personAggregator)
                 .cogroup(claimGroupedByPerson, personAggregator)
-                .cogroup(personChangesGrouped, personAggregator)
                 .aggregate(String::new)
                 .toStream().to("output-topic");
 
